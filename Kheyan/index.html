@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RevGNG | Kheyan</title>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+
+    background: url("https://i.8upload.com/preview/1b1bd16ea101df21/461120660-2587938851396393-1067913350648243603-n.webp") no-repeat center center/cover;
+  }
+
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+  }
+
+  body.loaded .card {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    }
+    body.loading .card,
+    body.loading .blob,
+    body.loading .particles {
+    filter: blur(10px);
+    }
+
+  .blob {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: #363636;
+    filter: blur(120px);
+    opacity: 0.55;
+    z-index: 0;
+  }
+
+  .blob.one {
+    top: -120px;
+    left: -160px;
+  }
+
+  .blob.two {
+    bottom: -160px;
+    right: -140px;
+  }
+
+  .particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: float linear infinite;
+     opacity: 0;
+  transition: opacity 1.5s ease;
+  }
+
+  body.loaded .particles {
+  opacity: 1;
+}
+
+  @keyframes float {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-10vh); }
+  }
+
+  .card {
+    position: relative;
+    z-index: 5;
+
+    text-align: center;
+    color: white;
+
+    width: 340px;
+    padding: 28px;
+
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(18px);
+    border-radius: 22px;
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+
+    opacity: 0;
+    transform: translateY(25px) scale(.96);
+    transition: all .9s ease;
+  }
+
+  .avatar {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    object-fit: cover;
+
+    border: 2px solid rgba(255,255,255,0.4);
+    box-shadow: 0 0 25px rgba(255,255,255,0.15);
+    margin-bottom: 10px;
+  }
+
+  .name {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .status {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-top: 8px;
+  }
+
+  .badge {
+    margin-top: 10px;
+    display: inline-block;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .icons {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 12px;
+
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.15);
+
+    box-shadow:
+      0 10px 25px rgba(0,0,0,0.4),
+      inset 0 1px 2px rgba(255,255,255,0.15);
+
+    transition: 0.2s;
+    cursor: pointer;
+  }
+
+  .icon:hover {
+    transform: translateY(-4px) scale(1.05);
+  }
+
+  .icon img {
+    width: 20px;
+    height: 20px;
+    filter: none;
+    opacity: 0.9;
+    transition: 0.2s;
+  }
+
+  .icon:hover img {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  #intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0,0,0,.65);
+    backdrop-filter: blur(20px);
+
+    cursor: pointer;
+
+    animation: introFadeIn 1s ease;
+    transition: opacity .8s ease;
+    }
+
+    .intro-content {
+    text-align: center;
+    color: white;
+    animation: floatText 3s ease-in-out infinite;
+    }
+
+    .intro-content h1 {
+    font-size: 36px;
+    letter-spacing: 5px;
+    font-weight: 700;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,.2),
+        0 0 30px rgba(255,255,255,.15);
+
+    animation: pulse 2s infinite;
+    }
+
+    .intro-content p {
+    margin-top: 12px;
+    opacity: .6;
+    letter-spacing: 3px;
+    }
+
+    @keyframes pulse {
+    0%,100% {
+        transform: scale(1);
+        opacity: .9;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    }
+
+    @keyframes floatText {
+    0%,100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+    }
+
+    @keyframes introFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+    }
+
+  #typing::after {
+    content: "|";
+    animation: blink 0.7s infinite;
+    }
+
+    @keyframes blink {
+    50% { opacity: 0; }
+    }
+
+    
+</style>
+</head>
+
+<body class="loading">
+    <div id="intro">
+  <div class="intro-content">
+    <h1>CLICK TO CONTINUE</h1>
+    <p>enter site</p>
+  </div>
+</div>
+
+<!-- blobs -->
+<div class="blob one"></div>
+<div class="blob two"></div>
+
+<!-- particles -->
+<div class="particles" id="particles"></div>
+
+<!-- card -->
+<div class="card">
+
+  <img class="avatar" src="https://i.8upload.com/preview/94aba929f40d83b2/images.jpg" />
+
+  <div class="name">Kheyan</div>
+  <div class="status"><span id="typing"></span></div>
+
+  <div class="badge">Anti Revisit</div>
+  <div class="icons">
+
+  <a class="icon" href="https://www.instagram.com/kheyan_deriva/" target="_blank" rel="noopener noreferrer">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+  </a>
+
+  <a class="icon" href="https://discord.gg/revgng" target="_blank" rel="noopener noreferrer">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord">
+  </a>
+
+  <a class="icon" href="https://www.tiktok.com/@kheyan198?_r=1&_t=ZS-97Cn32axxRs" target="_blank" rel="noopener noreferrer">
+    <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="YouTube">
+  </a>
+
+</div>
+
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="https://audio.jukehost.co.uk/019ec8e2-504b-7356-9f9e-651580e3d1cb" type="audio/mpeg">
+</audio>
+
+<script>
+const intro = document.getElementById("intro");
+const music = document.getElementById("bgMusic");
+
+intro.addEventListener("click", () => {
+
+  document.body.classList.remove("loading");
+  document.body.classList.add("loaded");
+
+  intro.style.opacity = "0";
+
+  if (music) {
+    music.play().catch(() => {});
+  }
+
+  setTimeout(() => {
+    intro.remove();
+  }, 800);
+
+});
+</script>
+
+<script>
+  const container = document.getElementById("particles");
+
+  for (let i = 0; i < 50; i++) {
+    const dot = document.createElement("div");
+    dot.className = "particle";
+    dot.style.left = Math.random() * 100 + "vw";
+    dot.style.animationDuration = (5 + Math.random() * 8) + "s";
+    dot.style.opacity = Math.random();
+    container.appendChild(dot);
+  }
+
+  const text = "DON'T FVCK WITH THE KHEYAN";
+  let i = 0;
+
+  function type() {
+    if (i <= text.length) {
+      document.getElementById("typing").innerText = text.slice(0, i);
+      i++;
+      setTimeout(type, 90);
+    } else {
+      setTimeout(() => {
+        i = 0;
+        type(); // loop
+      }, 2000);
+    }
+  }
+
+  type();
+</script>
+
+</body>
+</html>
